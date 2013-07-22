@@ -2,6 +2,7 @@
 #player is always O
 
 require './victory'
+require './computer_player'
 class Game
   include VictoryChecker
 
@@ -12,25 +13,25 @@ class Game
               b1: ' ', b2: ' ', b3: ' ', 
               c1: ' ', c2: ' ', c3: ' '}
     @winner = nil
+    @computer_player = ComputerPlayer.new
   end
 
   def play
+    @next_player ||= who_goes_first
+    @last_opponent_move ||= nil
     print_board
-    # first_move
-    #get_player_move <= decide who's turn and gets there move
-    puts "Choose your next move..."
-    box_number = gets.chomp
+    box_number = get_next_move
     make_move(box_number)
-    victory # maybe call game_state_checker <= check vic, continue or stalemate
+    victory_or_continue_play
   end
 
-  # def first_move
-  #   num = rand(1..2)
-  #   first = num == 1 ? 'computer' : 'player'
-  #   message = first == 'computer' ? "Computer goes first." : "You go first."
-  #   puts message
-
-  # end
+  def who_goes_first
+    num = rand(1..2)
+    @first_player = num == 1 ? 'computer' : 'player'
+    message = @first_player == 'computer' ? "Computer goes first." : "You go first."
+    puts message
+    return @first_player
+  end
 
   def print_board
     puts '   1     2     3'
@@ -41,25 +42,35 @@ class Game
     puts "c  #{board[:c1]}  |  #{board[:c2]}  |  #{board[:c3]}"
   end
   
-  def make_move(box_number)
-    #need a switch @@switch that keep track of who just went
-    box = box_number.to_sym
-    board[box] = 'O'
+  def get_next_move
+    box_number = @next_player == 'player' ? get_player_move : get_computer_move
+    @next_player = @next_player == 'player' ? 'computer' : 'player'
+    return box_number
   end
 
-  def get_next_move
-    #check to see who goes next
-      #if player gets chomp and make move
-      #if computer call method to get computer move and make move
+  def get_player_move
+    puts "Choose your next move..."
+    @last_opponent_move = gets.chomp.to_sym
+  end
+
+  def get_computer_move
+    puts "Computer move..."
+    move = @computer_player.get_next_move(board, @last_opponent_move, @first_player)
+    p move
+  end
+
+  def make_move(box_number)
+    box = box_number
+
+    if board[box] != " "
+      puts "Sorry, that box is already filled."
+      new_move = get_player_move
+      make_move(new_move)
+    else
+      board[box] = @next_player == 'computer' ? 'O' : 'X'
+    end
   end
 end
 
 game = Game.new
 game.play
-# game.print_board
-# # game.first_move
-# puts "Choose your next move..."
-# box_number = gets.chomp
-# game.make_move(box_number)
-# game.print_board
-# game.diag_vic?

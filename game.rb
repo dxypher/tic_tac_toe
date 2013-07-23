@@ -4,8 +4,6 @@
 require './victory'
 require './computer_player'
 class Game
-  include VictoryChecker
-
   attr_accessor :board, :winner
 
   def initialize
@@ -14,6 +12,7 @@ class Game
               c1: ' ', c2: ' ', c3: ' '}
     @winner = nil
     @computer_player = ComputerPlayer.new
+    @victory_checker = VictoryChecker.new
   end
 
   def play
@@ -22,7 +21,22 @@ class Game
     print_board
     box_number = get_next_move
     make_move(box_number)
-    victory_or_continue_play
+    announce_victory_or_continue_play
+  end
+
+  private
+  def announce_victory_or_continue_play
+    case @victory_checker.victory_or_continue_play(board)
+      when "draw"
+        puts "It's a Draw!!!"
+      when "continue"
+        play
+      when 'X'
+        print_board
+        puts "The Computer has Won!!!"
+      when 'O'
+        puts "You've Won!!!"
+    end
   end
 
   def who_goes_first
@@ -56,7 +70,6 @@ class Game
   def get_computer_move
     puts "Computer move..."
     move = @computer_player.get_next_move(board, @last_opponent_move, @first_player)
-    p move
   end
 
   def make_move(box_number)

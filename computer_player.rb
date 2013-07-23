@@ -7,58 +7,76 @@ class ComputerPlayer
   def initialize
   end
 
-  def get_next_move(board, last_opponent_move, first_player)
+  def get_next_computer_move(board, last_human_player_move, first_player)
     @board = board
+    @last_human_player_move = last_human_player_move
     @first_player = first_player
-    @last_opponent_move = last_opponent_move
     @turn_number ||= 1
     @optimal_move_sequence ||= nil
-    is_a_win_possible? || make_blocking_move? || make_regular_move
+
+    get_winning_or_blocking_move || make_regular_move
   end
 
   private
-  def is_a_win_possible?
-    setup_hash_to_check
-    @hashes.each do |new_hash|
-      if new_hash.values.count('X') == 2 && new_hash.values.count(" ") == 1
-        move = new_hash.invert[" "]
-        return move
+
+  def get_winning_or_blocking_move
+    get_current_state_of_winning_combinations
+    marks = ['X', 'O']
+    marks.each do |mark|
+      @winning_combination_hashes.each do |winning_hash|
+        if winning_hash.values.count(mark) == 2 && winning_hash.values.count(" ") == 1
+          next_move = winning_hash.invert[" "]
+          return next_move
+        end
       end
     end
     return false
   end
-  
-  def make_blocking_move?
-    setup_hash_to_check
-    @hashes.each do |new_hash|
-      if new_hash.values.count('O') == 2 && new_hash.values.count(" ") == 1
-        move = new_hash.invert[" "]
-        return move
-      end
+
+  def get_current_state_of_winning_combinations
+    keysets = winning_combinations
+    @winning_combination_hashes = []
+    keysets.each do |keyset|
+      new_hash = {}
+      keyset.each {|i| new_hash[i] = @board[i]}
+      @winning_combination_hashes << new_hash
     end
-    return false
+    return @winning_combination_hashes
   end
+
+  def winning_combinations
+    keysets = []
+    keysets << [:a1, :a2, :a3]
+    keysets << [:b1, :b2, :b3]
+    keysets << [:c1, :c2, :c3]
+    keysets << [:a1, :b1, :c1]
+    keysets << [:a2, :b2, :c2]
+    keysets << [:a3, :b3, :c3]
+    keysets << [:a1, :b2, :c3]
+    keysets << [:a3, :b2, :c1]
+  end
+ 
 
   def make_regular_move
-    @first_player == "computer" ? move_if_computer_went_first : move_if_computer_went_second
+    @first_player == "computer" ? moves_if_computer_went_first : moves_if_computer_went_second
   end
 
-  def move_if_computer_went_first
+  def moves_if_computer_went_first
     if @turn_number == 1
       @turn_number += 1
       :a1
     elsif @turn_number == 2
       @turn_number += 1
-      choose_optimal_move_sequence_first
+      set_first_mover_optimal_sequence
     else  
       choose_next_optimal_move
     end
   end
 
-  def move_if_computer_went_second
+  def moves_if_computer_went_second
     if @turn_number == 1
       @turn_number += 1
-      choose_optimal_move_sequence_second
+      set_second_mover_optimal_sequence
     else
       choose_next_optimal_move
     end
@@ -80,6 +98,7 @@ class ComputerPlayer
         optimal_move_sequence_6
       when 7
         optimal_move_sequence_7
+      # Sequences below are for when Computer moved second  
       when 8
         optimal_move_sequence_8
       when 9
@@ -99,28 +118,5 @@ class ComputerPlayer
       when 16
         optimal_move_sequence_16
     end
-  end
-
-  def setup_hash_to_check
-    keysets = get_keysets
-    @hashes = []
-    keysets.each do |keyset|
-      new_hash = {}
-      keyset.each {|i| new_hash[i] = @board[i]}
-      @hashes << new_hash
-    end
-    return @hashes
-  end
-
-  def get_keysets
-    keysets = []
-    keysets << [:a1, :a2, :a3]
-    keysets << [:b1, :b2, :b3]
-    keysets << [:c1, :c2, :c3]
-    keysets << [:a1, :b1, :c1]
-    keysets << [:a2, :b2, :c2]
-    keysets << [:a3, :b3, :c3]
-    keysets << [:a1, :b2, :c3]
-    keysets << [:a3, :b2, :c1]
   end
 end

@@ -7,7 +7,7 @@ class VictoryChecker
 
   def victory_or_continue_play(board)
     @board = board
-    result_of_check = a_player_has_won? ? @str : stalemate_or_continue_play
+    result_of_check = a_player_has_won? ? @winner : stalemate_or_continue_play
   end
 
   private
@@ -17,28 +17,10 @@ class VictoryChecker
 
   def stalemate_or_continue_play
     if @board.has_value?(" ")
-      "continue"
+      "continue play"
     else
-      "draw"
+      "It's a Draw!!!"
     end
-  end
-
-  def three_consecutive_x?(*rows)
-    rows.each do |row|
-      if row == THREE_CONSECUTIVE_Xs
-        return @str = 'X'
-      end
-    end
-    return false
-  end
-
-  def three_consecutive_o?(*rows)
-    rows.each do |row|
-      if row == THREE_CONSECUTIVE_Os
-        return @str = "O"
-      end
-    end
-    return false
   end
 
   def horizontal_victory?
@@ -62,6 +44,24 @@ class VictoryChecker
     right_across = @board.values_at(:a3, :b2, :c1)
 
     three_consecutive_x?(left_across, right_across) || three_consecutive_o?(left_across, right_across)
+  end
+
+  def three_consecutive_x?(*rows)
+    rows.each do |row|
+      if row == THREE_CONSECUTIVE_Xs
+        return @winner = "The Computer has Won!!!"
+      end
+    end
+    return false
+  end
+
+  def three_consecutive_o?(*rows)
+    rows.each do |row|
+      if row == THREE_CONSECUTIVE_Os
+        return @winner = "You've Won!!!"
+      end
+    end
+    return false
   end
 end
 

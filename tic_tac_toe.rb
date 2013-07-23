@@ -1,1 +1,4 @@
-#print board before announcing computer has won
+require './game'
+
+game = Game.new
+game.play

@@ -1,4 +1,4 @@
-require './computer_player'
+require './lib/computer_player'
 
 describe 'ComputerPlayer' do
   context "Computer Player is first mover in game" do

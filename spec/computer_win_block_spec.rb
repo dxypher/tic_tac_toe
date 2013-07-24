@@ -1,4 +1,4 @@
-require './computer_player'
+require './lib/computer_player'
 
 describe 'ComputerPlayer' do
   let(:computer_player) {ComputerPlayer.new}

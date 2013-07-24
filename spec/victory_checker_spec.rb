@@ -1,4 +1,4 @@
-require "./victory_checker"
+require "./lib/victory_checker"
 
 describe 'VictoryChecker' do
   let(:victory_checker) { VictoryChecker.new }

@@ -1,6 +1,6 @@
-require "./game"
-require "./computer_player"
-require "./victory_checker"
+require "./lib/game"
+require "./lib/computer_player"
+require "./lib/victory_checker"
 
 describe Game do
   describe '#new' do

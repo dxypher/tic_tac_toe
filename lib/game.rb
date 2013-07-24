@@ -1,8 +1,8 @@
 #computer is always X
 #player is always O
 
-require './victory_checker'
-require './computer_player'
+require './lib/victory_checker'
+require './lib/computer_player'
 class Game
   attr_accessor :board, :winner
   attr_reader :next_player

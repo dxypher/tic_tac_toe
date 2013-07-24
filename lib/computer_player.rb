@@ -1,5 +1,5 @@
-require './first_mover_sequence'
-require './second_mover_sequence'
+require './lib/first_mover_sequence'
+require './lib/second_mover_sequence'
 class ComputerPlayer
   include FirstMoverSequence
   include SecondMoverSequence

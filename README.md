@@ -4,6 +4,8 @@ The game decides randomly who goes first, the computer or the human player.
 
 The computer is always 'X', and the human player is always 'O'.
 
+To make your move type the row and column combination. So for the top right box you'd type a3, lower case and without spaces.
+
 It is designed so whether the computer plays first or second, it will always
 make the optimal move so that it never loses.
 

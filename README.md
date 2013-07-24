@@ -9,9 +9,9 @@ make the optimal move so that it never loses.
 
 Ruby version: ruby 2.0.0p247
 
-To run the game:
-ruby tic_tac_toe.rb
+To run the game
+$ ruby tic_tac_toe.rb
 
-To run the specs:
-gem install rspec
-rspec spec
+To run the specs
+$ gem install rspec
+$ rspec spec

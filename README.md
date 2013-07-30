@@ -2,7 +2,7 @@ This is a Tic Tac Toe game written in Ruby.
 
 The game decides randomly who goes first, the computer or the human player.
 
-The computer is always 'X', and the human player is always 'O'.
+The first player is always 'X', and the second player is always 'O'.
 
 To make your move type the row and column combination. So for the top right box you'd type a3, lower case and without spaces.
 

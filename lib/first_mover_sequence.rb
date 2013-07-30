@@ -1,96 +1,96 @@
 module FirstMoverSequence
   def set_first_mover_optimal_sequence
     case @last_human_player_move #first move by human player
-      when :a2, :a3
+      when 2, 3
         optimal_move_sequence_1
-      when :b1
+      when 4
         optimal_move_sequence_2
-      when :b2
+      when 5
         optimal_move_sequence_3
-      when :b3
+      when 6
         optimal_move_sequence_4
-      when :c1
+      when 7
         optimal_move_sequence_5
-      when :c2
+      when 8
         optimal_move_sequence_6
-      when :c3
+      when 9
         optimal_move_sequence_7
     end
   end
 
   def optimal_move_sequence_1
     case @last_human_player_move
-      when :a2, :a3
+      when 2, 3
         @optimal_move_sequence = 1
-        :b1
-      when :c1
-        :b2
+        4
+      when 7
+        5
     end
   end
 
   def optimal_move_sequence_2
     case @last_human_player_move
-      when :b1
+      when 4
         @optimal_move_sequence = 2
-        :a2
-      when :a3
-        :b2
+        2
+      when 3
+        5
     end
   end
 
   def optimal_move_sequence_3
     case @last_human_player_move
-      when :b2
+      when 5
         @optimal_move_sequence = 3
-        :a2
-      when :a3
-        :c1
-      when :b1
-        :b3
-      when :c2
-        :c3
-      when :c3
-        :c2
+        2
+      when 3
+        7
+      when 4
+        6
+      when 8
+        9
+      when 9
+        8
     end
   end
 
   def optimal_move_sequence_4
     case @last_human_player_move
-      when :b3
+      when 6
         @optimal_move_sequence = 4
-        :b2
-      when :c3
-        :b3
+        5
+      when 9
+        6
     end
   end
 
   def optimal_move_sequence_5
     case @last_human_player_move
-      when :c1
+      when 7
         @optimal_move_sequence = 5
-        :a2
-      when :b3
-        :b2
+        2
+      when 6
+        5
     end
   end
 
   def optimal_move_sequence_6
     case @last_human_player_move
-      when :c2
+      when 8
         @optimal_move_sequence = 6
-        :b3
-      when :a2
-        :b2
+        6
+      when 2
+        5
     end
   end
 
   def optimal_move_sequence_7
     case @last_human_player_move
-      when :c3
+      when 9
         @optimal_move_sequence = 7
-        :a3
-      when :a2
-        :c1
+        3
+      when 2
+        7
     end
   end
 end

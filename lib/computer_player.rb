@@ -4,11 +4,8 @@ class ComputerPlayer
   include FirstMoverSequence
   include SecondMoverSequence
 
-  def initialize
-  end
-
   def get_next_computer_move(board, last_human_player_move, first_player)
-    @board = board
+    @grid = board.grid
     @last_human_player_move = last_human_player_move
     @first_player = first_player
     @turn_number ||= 1
@@ -38,7 +35,7 @@ class ComputerPlayer
     @winning_combination_hashes = []
     keysets.each do |keyset|
       new_hash = {}
-      keyset.each {|i| new_hash[i] = @board[i]}
+      keyset.each {|i| new_hash[i] = @grid[i]}
       @winning_combination_hashes << new_hash
     end
     return @winning_combination_hashes
@@ -46,14 +43,14 @@ class ComputerPlayer
 
   def winning_combinations
     keysets = []
-    keysets << [:a1, :a2, :a3]
-    keysets << [:b1, :b2, :b3]
-    keysets << [:c1, :c2, :c3]
-    keysets << [:a1, :b1, :c1]
-    keysets << [:a2, :b2, :c2]
-    keysets << [:a3, :b3, :c3]
-    keysets << [:a1, :b2, :c3]
-    keysets << [:a3, :b2, :c1]
+    keysets << [1, 2, 3]
+    keysets << [4, 5, 6]
+    keysets << [7, 8, 9]
+    keysets << [1, 4, 7]
+    keysets << [2, 5, 8]
+    keysets << [3, 6, 9]
+    keysets << [1, 5, 9]
+    keysets << [3, 5, 7]
   end
  
 
@@ -64,7 +61,7 @@ class ComputerPlayer
   def moves_if_computer_went_first
     if @turn_number == 1
       @turn_number += 1
-      :a1
+      1
     elsif @turn_number == 2
       @turn_number += 1
       set_first_mover_optimal_sequence

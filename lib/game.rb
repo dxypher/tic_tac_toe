@@ -15,6 +15,12 @@ class Game
     @victory_checker = VictoryChecker.new
   end
 
+  def who_goes_first
+    num = rand(1..2)
+    first_player = num == 1 ? 'computer' : 'human'
+    return first_player
+  end
+
   def print_game_instructions
     puts "Welcome to Tic-Tac-Toe..."
     puts "To make a move select a number between 1 and 9 that corresponds"
@@ -39,6 +45,7 @@ class Game
       play
     end
   end
+
 
   def current_player(next_player)
     if next_player == 'human'
@@ -65,11 +72,6 @@ class Game
     end
   end
 
-  def who_goes_first
-    num = rand(1..2)
-    first_player = num == 1 ? 'computer' : 'human'
-    return first_player
-  end
 
   def get_next_move
     box_number = self.next_player == 'human' ? get_player_move : get_computer_move

@@ -3,7 +3,7 @@ require './lib/human_player'
 require './lib/o_move_sequence'
 require './lib/board'
 
-describe 'ComputerPlayer' do
+describe 'OMoveSequence' do
   context "Computer Player is 'O' mover in game" do
     let(:computer_player) {ComputerPlayer.new("human")}
     let(:board) {Board.new}

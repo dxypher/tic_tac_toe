@@ -1,7 +1,7 @@
 require './lib/computer_player'
 require './lib/board'
 
-describe 'ComputerPlayer' do
+describe 'XMoveSequence' do
   context "Computer Player is 'O' mover in game" do
     let(:computer_player) {ComputerPlayer.new("computer")}
     let(:board) {Board.new}

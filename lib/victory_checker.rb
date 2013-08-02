@@ -2,9 +2,6 @@ class VictoryChecker
   THREE_CONSECUTIVE_Xs = ['X','X','X']
   THREE_CONSECUTIVE_Os = ['O','O','O']
 
-  def initialize
-  end
-
   def victory_or_continue_play(board)
     @grid = board.grid
     result_of_check = a_player_has_won? ? @winner : stalemate_or_continue_play
@@ -15,7 +12,7 @@ class VictoryChecker
     horizontal_victory? || vertical_victory? || diagonal_victory?
   end
 
-  def stalemate_or_continue_play
+  def stalemate_or_continue_play #no or methods, break into two seperate methods
     if @grid.has_value?(" ")
       "continue play"
     else
@@ -49,7 +46,7 @@ class VictoryChecker
   def three_consecutive_x?(*rows)
     rows.each do |row|
       if row == THREE_CONSECUTIVE_Xs
-        return @winner = "The Computer has Won!!!"
+        return @winner = "X"
       end
     end
     return false
@@ -58,7 +55,7 @@ class VictoryChecker
   def three_consecutive_o?(*rows)
     rows.each do |row|
       if row == THREE_CONSECUTIVE_Os
-        return @winner = "You've Won!!!"
+        return @winner = "O"
       end
     end
     return false

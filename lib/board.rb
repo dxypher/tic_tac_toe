@@ -15,7 +15,7 @@ class Board
     puts "   #{grid[7]}  |  #{grid[8]}  |  #{grid[9]}"
   end
 
-  def make_move(box_number, first_player, next_player)
-    grid[box_number] = next_player == first_player ? 'O' : 'X'
+  def make_move(box_number, current_player)
+    grid[box_number] = current_player.mark
   end
 end

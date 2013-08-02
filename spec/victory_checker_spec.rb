@@ -11,7 +11,7 @@ describe 'VictoryChecker' do
                7 => 'X', 8 => ' ', 9 => ' '}
 
       winner = victory_checker.victory_or_continue_play(board)
-      winner.should == "The Computer has Won!!!"
+      winner.should == "X"
     end
 
     it "should determine that the Computer Player has won" do
@@ -20,7 +20,7 @@ describe 'VictoryChecker' do
                7 => ' ', 8 => ' ', 9 => 'X'}
 
       winner = victory_checker.victory_or_continue_play(board)
-      winner.should == "The Computer has Won!!!"
+      winner.should == "X"
     end
 
     it "should determine that the Computer Player has won" do
@@ -29,7 +29,7 @@ describe 'VictoryChecker' do
                7 => 'X', 8 => 'X', 9 => 'X'}
 
       winner = victory_checker.victory_or_continue_play(board)
-      winner.should == "The Computer has Won!!!"
+      winner.should == "X"
     end
   end
 
@@ -40,7 +40,7 @@ describe 'VictoryChecker' do
                7 => 'O', 8 => ' ', 9 => ' '}
 
       winner = victory_checker.victory_or_continue_play(board)
-      winner.should == "You've Won!!!"
+      winner.should == "O"
     end
 
     it "should determine that the Human Player has won" do
@@ -49,7 +49,7 @@ describe 'VictoryChecker' do
                7 => 'O', 8 => ' ', 9 => ' '}
 
       winner = victory_checker.victory_or_continue_play(board)
-      winner.should == "You've Won!!!"
+      winner.should == "O"
     end
 
     it "should determine that the Human Player has won" do
@@ -58,7 +58,7 @@ describe 'VictoryChecker' do
                7 => 'O', 8 => 'O', 9 => 'O'}
 
       winner = victory_checker.victory_or_continue_play(board)
-      winner.should == "You've Won!!!"
+      winner.should == "O"
     end
   end
 

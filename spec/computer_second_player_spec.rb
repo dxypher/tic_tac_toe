@@ -1,103 +1,244 @@
 require './lib/computer_player'
+require './lib/human_player'
+require './lib/o_move_sequence'
+require './lib/board'
 
 describe 'ComputerPlayer' do
-  context "Computer Player is second mover in game" do
-    let(:computer_player) {ComputerPlayer.new}
-    before(:each) do
-      @board = Board.new
+  context "Computer Player is 'O' mover in game" do
+    let(:computer_player) {ComputerPlayer.new("human")}
+    let(:board) {Board.new}
 
-      @computer_moves = []
-      @first_player = "player"
+    context "First move for computer" do
+      it 'should return 5 as first computer move if blank' do
+        computer_move = computer_player.get_next_computer_move(board, 1)
+        computer_move.should == 5
+      end
+
+      it 'should return 1 as first computer move if 5 was human first move' do
+        board.grid[5] = 'X'
+        computer_move = computer_player.get_next_computer_move(board, 5)
+        computer_move.should == 1
+      end
+
+      it "should set optimal_move_sequence_8" do
+        computer_player.get_next_computer_move(board, 1)
+        computer_player.optimal_move_sequence.should == "optimal_move_sequence_8"
+      end
+
+      it "should set optimal_move_sequence_9" do
+        computer_player.get_next_computer_move(board, 2)
+        computer_player.optimal_move_sequence.should == "optimal_move_sequence_9"
+      end
+
+      it "should set optimal_move_sequence_10" do
+        computer_player.get_next_computer_move(board, 3)
+        computer_player.optimal_move_sequence.should == "optimal_move_sequence_10"
+      end
+
+      it "should set optimal_move_sequence_11" do
+        computer_player.get_next_computer_move(board, 4)
+        computer_player.optimal_move_sequence.should == "optimal_move_sequence_11"
+      end
+
+      it "should set optimal_move_sequence_12" do
+        computer_player.get_next_computer_move(board, 5)
+        computer_player.optimal_move_sequence.should == "optimal_move_sequence_12"
+      end
+
+      it "should set optimal_move_sequence_13" do
+        computer_player.get_next_computer_move(board, 6)
+        computer_player.optimal_move_sequence.should == "optimal_move_sequence_13"
+      end
+
+      it "should set optimal_move_sequence_14" do
+        computer_player.get_next_computer_move(board, 7)
+        computer_player.optimal_move_sequence.should == "optimal_move_sequence_14"
+      end
+
+      it "should set optimal_move_sequence_15" do
+        computer_player.get_next_computer_move(board, 8)
+        computer_player.optimal_move_sequence.should == "optimal_move_sequence_15"
+      end
+
+      it "should set optimal_move_sequence_16" do
+        computer_player.get_next_computer_move(board, 9)
+        computer_player.optimal_move_sequence.should == "optimal_move_sequence_16"
+      end
     end
 
-    it 'should return optimal_move_sequence_8 moves' do
-      player_moves = [1, 6, 8, 9]
-      expected_computer_moves = [5, 8, 6, 2]
+    context "optimal_move_sequence_8" do
+      before(:each) {computer_player.optimal_move_sequence = 'optimal_move_sequence_8'}
 
-      player_moves.each do |player_move|
-        @computer_moves << computer_player.get_next_computer_move(@board, player_move, @first_player)
+      it 'should return 8 as next computer move' do
+        computer_move = computer_player.get_next_computer_move(board, 6)
+        computer_move.should == 8
       end
-      @computer_moves.should == expected_computer_moves
+
+      it 'should return 6 as next computer move' do
+        computer_move = computer_player.get_next_computer_move(board, 8)
+        computer_move.should == 6
+      end
+
+      it 'should return 2 as next computer move' do
+        computer_move = computer_player.get_next_computer_move(board, 9)
+        computer_move.should == 2
+      end
     end
 
-    it 'should return optimal_move_sequence_9 moves' do
-      player_moves = [2, 7, 8, 4, 9]
-      expected_computer_moves = [5, 6, 1, 3, 4]
+    context "optimal_move_sequence_9" do
+      before(:each) {computer_player.optimal_move_sequence = 'optimal_move_sequence_9'}
 
-      player_moves.each do |player_move|
-        @computer_moves << computer_player.get_next_computer_move(@board, player_move, @first_player)
+      it "should return 3 as next computer move" do
+        computer_move = computer_player.get_next_computer_move(board, 4)
+        computer_move.should == 3
       end
-      @computer_moves.should == expected_computer_moves
+
+      it "should return 1 as next computer move" do
+        computer_move = computer_player.get_next_computer_move(board, 6)
+        computer_move.should == 1
+      end
+
+      it "should return 1 as next computer move" do
+        computer_move = computer_player.get_next_computer_move(board, 8)
+        computer_move.should == 1
+      end
+
+      it "should return 6 as next computer move" do
+        computer_move = computer_player.get_next_computer_move(board, 7)
+        computer_move.should == 6
+      end
+
+      it "should return 4 as next computer move" do
+        computer_move = computer_player.get_next_computer_move(board, 9)
+        computer_move.should == 4
+      end
     end
 
-    it 'should return optimal_move_sequence_10 moves' do
-      player_moves = [3, 4, 7, 8]
-      expected_computer_moves = [5, 8, 2, 4]
+    context "optimal_move_sequence_10" do
+      before(:each) {computer_player.optimal_move_sequence = 'optimal_move_sequence_10'}
 
-      player_moves.each do |player_move|
-        @computer_moves << computer_player.get_next_computer_move(@board, player_move, @first_player)
+      it "should return 8 as next computer move" do
+        computer_move = computer_player.get_next_computer_move(board, 4)
+        computer_move.should == 8
       end
-      @computer_moves.should == expected_computer_moves
+
+      it "should return 2 as next computer move" do
+        computer_move = computer_player.get_next_computer_move(board, 7)
+        computer_move.should == 2
+      end
+
+      it "should return 4 as next computer move" do
+        computer_move = computer_player.get_next_computer_move(board, 8)
+        computer_move.should == 4
+      end
     end
 
-    it 'should return optimal_move_sequence_11 moves' do
-      player_moves = [4, 2, 3, 8, 9]
-      expected_computer_moves = [5, 3, 8, 1, 2]
+    context "optimal_move_sequence_11" do
+      before(:each) {computer_player.optimal_move_sequence = 'optimal_move_sequence_11'}
 
-      player_moves.each do |player_move|
-        @computer_moves << computer_player.get_next_computer_move(@board, player_move, @first_player)
+      it "should return 3 as next computer move" do
+        computer_move = computer_player.get_next_computer_move(board, 2)
+        computer_move.should == 3
       end
-      @computer_moves.should == expected_computer_moves
+
+      it "should return 8 as next computer move" do
+        computer_move = computer_player.get_next_computer_move(board, 3)
+        computer_move.should == 8
+      end
+
+      it "should return 1 as next computer move" do
+        computer_move = computer_player.get_next_computer_move(board, 8)
+        computer_move.should == 1
+      end
+
+      it "should return 2 as next computer move" do
+        computer_move = computer_player.get_next_computer_move(board, 9)
+        computer_move.should == 2
+      end
     end
 
-    it 'should return optimal_move_sequence_12 moves' do
-      player_moves = [5, 9]
-      expected_computer_moves = [1, 3]
-
-      player_moves.each do |player_move|
-        @computer_moves << computer_player.get_next_computer_move(@board, player_move, @first_player)
+    context "optimal_move_sequence_12" do
+      it "should return 3 as next computer move" do
+        computer_player.optimal_move_sequence = 'optimal_move_sequence_12'
+        computer_move = computer_player.get_next_computer_move(board, 9)
+        computer_move.should == 3
       end
-      @computer_moves.should == expected_computer_moves
     end
 
-    it 'should return optimal_move_sequence_13 moves' do
-      player_moves = [6, 8, 7, 1, 2]
-      expected_computer_moves = [5, 3, 2, 8, 1]
+    context "optimal_move_sequence_13" do
+      before(:each) {computer_player.optimal_move_sequence = 'optimal_move_sequence_13'}
 
-      player_moves.each do |player_move|
-        @computer_moves << computer_player.get_next_computer_move(@board, player_move, @first_player)
+      it "should return 3 as next computer move" do
+        computer_move = computer_player.get_next_computer_move(board, 8)
+        computer_move.should == 3
       end
-      @computer_moves.should == expected_computer_moves
+
+      it "should return 2 as next computer move" do
+        computer_move = computer_player.get_next_computer_move(board, 7)
+        computer_move.should == 2
+      end
+
+      it "should return 8 as next computer move" do
+        computer_move = computer_player.get_next_computer_move(board, 1)
+        computer_move.should == 8
+      end
+
+      it "should return 1 as next computer move" do
+        computer_move = computer_player.get_next_computer_move(board, 2)
+        computer_move.should == 1
+      end
     end
 
-    it 'should return optimal_move_sequence_14 moves' do
-      player_moves = [7, 2, 6]
-      expected_computer_moves = [5, 6, 2]
+    context "optimal_move_sequence_14" do
+      before(:each) {computer_player.optimal_move_sequence = 'optimal_move_sequence_14'}
 
-      player_moves.each do |player_move|
-        @computer_moves << computer_player.get_next_computer_move(@board, player_move, @first_player)
+      it "should return 6 as next computer move" do
+        computer_move = computer_player.get_next_computer_move(board, 2)
+        computer_move.should == 6
       end
-      @computer_moves.should == expected_computer_moves
+
+      it "should return 2 as next computer move" do
+        computer_move = computer_player.get_next_computer_move(board, 6)
+        computer_move.should == 2
+      end
     end
 
-    it 'should return optimal_move_sequence_15 moves' do
-      player_moves = [8, 2, 3, 4, 6]
-      expected_computer_moves = [5, 1, 4, 1, 3]
+    context "optimal_move_sequence_15" do
+      before(:each) {computer_player.optimal_move_sequence = 'optimal_move_sequence_15'}
 
-      player_moves.each do |player_move|
-        @computer_moves << computer_player.get_next_computer_move(@board, player_move, @first_player)
+      it "should return 1 as next computer move" do
+        computer_move = computer_player.get_next_computer_move(board, 2)
+        computer_move.should == 1
       end
-      @computer_moves.should == expected_computer_moves
+
+      it "should return 4 as next computer move" do
+        computer_move = computer_player.get_next_computer_move(board, 3)
+        computer_move.should == 4
+      end
+
+      it "should return 1 as next computer move" do
+        computer_move = computer_player.get_next_computer_move(board, 4)
+        computer_move.should == 1
+      end
+
+      it "should return 3 as next computer move" do
+        computer_move = computer_player.get_next_computer_move(board, 6)
+        computer_move.should == 3
+      end
     end
 
-    it 'should return optimal_move_sequence_16 moves' do
-      player_moves = [9, 4, 2]
-      expected_computer_moves = [5, 2, 4]
+    context "optimal_move_sequence_16" do
+      before(:each) {computer_player.optimal_move_sequence = 'optimal_move_sequence_16'}
 
-      player_moves.each do |player_move|
-        @computer_moves << computer_player.get_next_computer_move(@board, player_move, @first_player)
+      it "should return 2 as next computer move" do
+        computer_move = computer_player.get_next_computer_move(board, 4)
+        computer_move.should == 2
       end
-      @computer_moves.should == expected_computer_moves
+
+      it "should return 4 as next computer move" do
+        computer_move = computer_player.get_next_computer_move(board, 2)
+        computer_move.should == 4
+      end
     end
   end
 end

@@ -6,7 +6,8 @@ describe 'Board' do
     it "should place a mark in the box_number" do
       game = Game.new
       board = Board.new
-      board.make_move(5, game.first_player, game.next_player)
+      current_player = game.current_player(game.next_player)
+      board.make_move(5, current_player)
       board.grid[5].should_not == " "
     end 
   end

@@ -1,8 +1,9 @@
 require './lib/computer_player'
+require './lib/board'
 
 describe 'ComputerPlayer' do
-  let(:computer_player) {ComputerPlayer.new}
-  let(:first_player) {"player"}
+  let(:computer_player) {ComputerPlayer.new("human")}
+  let(:first_player) {"human"}
 
   context "a winning or blocking move is possible" do
     it 'should return a winning move' do
@@ -13,8 +14,8 @@ describe 'ComputerPlayer' do
 
       last_human_player_move = 5
 
-      move = computer_player.get_next_computer_move(board, last_human_player_move, first_player)
-      move.should == 9
+      move = computer_player.get_next_computer_move(board, last_human_player_move)
+      move.should == 8
     end
 
     it 'should return a blocking move' do
@@ -25,7 +26,7 @@ describe 'ComputerPlayer' do
 
       last_human_player_move = 5
 
-      move = computer_player.get_next_computer_move(board, last_human_player_move, first_player)
+      move = computer_player.get_next_computer_move(board, last_human_player_move)
       move.should == 6
     end
   end

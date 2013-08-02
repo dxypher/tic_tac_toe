@@ -1,28 +1,39 @@
-require './lib/first_mover_sequence'
-require './lib/second_mover_sequence'
+require './lib/x_move_sequence'
+require './lib/o_move_sequence'
 class ComputerPlayer
-  include FirstMoverSequence
-  include SecondMoverSequence
+  include XMoveSequence
+  include OMoveSequence
 
-  def get_next_computer_move(board, last_human_player_move, first_player)
+  attr_accessor :turn_number, :optimal_move_sequence
+  attr_reader :mark
+
+  def initialize(first_player)
+    @mark = get_mark(first_player)
+    @turn_number = 1
+    @optimal_move_sequence = nil
+  end
+
+  def get_mark(first_player)
+    first_player == 'computer' ? "X" : "O"
+  end
+
+  def get_next_computer_move(board, last_human_player_move)
     @grid = board.grid
     @last_human_player_move = last_human_player_move
-    @first_player = first_player
-    @turn_number ||= 1
-    @optimal_move_sequence ||= nil
 
-    get_winning_or_blocking_move || make_regular_move
+    get_game_ending_move || make_regular_move
   end
 
   private
 
-  def get_winning_or_blocking_move
-    get_current_state_of_winning_combinations
-    marks = ['X', 'O']
+  def get_game_ending_move
+    get_current_state_of_board
+    human_mark = mark == 'X' ? 'O' : 'X'
+    marks = [mark, human_mark]
     marks.each do |mark|
-      @winning_combination_hashes.each do |winning_hash|
-        if winning_hash.values.count(mark) == 2 && winning_hash.values.count(" ") == 1
-          next_move = winning_hash.invert[" "]
+      @consecutive_marks.each do |consecutive_mark_hash|
+        if consecutive_mark_hash.values.count(mark) == 2 && consecutive_mark_hash.values.count(" ") == 1
+          next_move = consecutive_mark_hash.invert[" "]
           return next_move
         end
       end
@@ -30,15 +41,15 @@ class ComputerPlayer
     return false
   end
 
-  def get_current_state_of_winning_combinations
+  def get_current_state_of_board
     keysets = winning_combinations
-    @winning_combination_hashes = []
+    @consecutive_marks = []
     keysets.each do |keyset|
       new_hash = {}
       keyset.each {|i| new_hash[i] = @grid[i]}
-      @winning_combination_hashes << new_hash
+      @consecutive_marks << new_hash
     end
-    return @winning_combination_hashes
+    return @consecutive_marks
   end
 
   def winning_combinations
@@ -55,65 +66,29 @@ class ComputerPlayer
  
 
   def make_regular_move
-    @first_player == "computer" ? moves_if_computer_went_first : moves_if_computer_went_second
-  end
-
-  def moves_if_computer_went_first
-    if @turn_number == 1
-      @turn_number += 1
-      1
-    elsif @turn_number == 2
-      @turn_number += 1
-      set_first_mover_optimal_sequence
-    else  
-      choose_next_optimal_move
-    end
-  end
-
-  def moves_if_computer_went_second
-    if @turn_number == 1
-      @turn_number += 1
-      set_second_mover_optimal_sequence
+    if optimal_move_sequence.nil?
+      mark == "X" ? moves_if_computer_is_X : moves_if_computer_is_O
     else
       choose_next_optimal_move
     end
   end
 
-  def choose_next_optimal_move
-    case @optimal_move_sequence
-      when 1
-        optimal_move_sequence_1
-      when 2
-        optimal_move_sequence_2
-      when 3
-        optimal_move_sequence_3
-      when 4
-        optimal_move_sequence_4
-      when 5
-        optimal_move_sequence_5
-      when 6
-        optimal_move_sequence_6
-      when 7
-        optimal_move_sequence_7
-      # Sequences below are for when Computer moved second  
-      when 8
-        optimal_move_sequence_8
-      when 9
-        optimal_move_sequence_9
-      when 10
-        optimal_move_sequence_10
-      when 11
-        optimal_move_sequence_11
-      when 12
-        optimal_move_sequence_12
-      when 13
-        optimal_move_sequence_13
-      when 14
-        optimal_move_sequence_14
-      when 15
-        optimal_move_sequence_15
-      when 16
-        optimal_move_sequence_16
+  def moves_if_computer_is_X
+    if turn_number == 1
+      self.turn_number = 2
+      1
+    elsif turn_number == 2
+      self.optimal_move_sequence = set_first_mover_optimal_sequence(@last_human_player_move)
+      choose_next_optimal_move
     end
+  end
+
+  def moves_if_computer_is_O
+    self.optimal_move_sequence = set_second_mover_optimal_sequence(@last_human_player_move)
+    @grid[5] == ' ' ? 5 : 1
+  end
+
+  def choose_next_optimal_move
+    send(self.optimal_move_sequence, @last_human_player_move)
   end
 end

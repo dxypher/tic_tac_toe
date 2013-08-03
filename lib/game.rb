@@ -3,12 +3,13 @@ require './lib/computer_player'
 require './lib/human_player'
 require './lib/board'
 class Game
-  attr_accessor :winner, :next_player
+  attr_accessor :winner, :next_player, :last_human_player_move
   attr_reader :first_player
 
   def initialize
     @first_player = who_goes_first
     @next_player = @first_player
+    @last_human_player_move = nil
     @board = Board.new
     @computer_player = ComputerPlayer.new(@first_player)
     @human = HumanPlayer.new(@first_player)
@@ -37,7 +38,6 @@ class Game
   end
 
   def play
-    @last_human_player_move ||= nil
     box_number = get_next_move
     @board.make_move(box_number, current_player(next_player))
     @board.print_board
@@ -89,12 +89,12 @@ class Game
       puts "Sorry, that box is already filled."
       new_move = get_player_move
     else
-      @last_human_player_move = user_input
+      self.last_human_player_move = user_input
     end
   end
 
   def get_computer_move
     puts "Computer move..."
-    move = @computer_player.get_next_computer_move(@board, @last_human_player_move)
+    move = @computer_player.get_next_computer_move(@board, last_human_player_move)
   end
 end

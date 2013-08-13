@@ -2,24 +2,19 @@ require './lib/victory_checker'
 require './lib/computer_player'
 require './lib/human_player'
 require './lib/board'
+require './lib/user_interface'
 class Game
-  attr_accessor :winner, :next_player, :last_human_player_move
+  attr_accessor :winner, :next_player
   attr_reader :first_player
 
   def initialize
     @first_player = who_goes_first
     @next_player = @first_player
-    @last_human_player_move = nil
     @board = Board.new
+    @ui = UserInterface.new
     @computer_player = ComputerPlayer.new(@first_player)
     @human = HumanPlayer.new(@first_player)
     @victory_checker = VictoryChecker.new
-  end
-
-  def who_goes_first
-    num = rand(1..2)
-    first_player = num == 1 ? 'computer' : 'human'
-    return first_player
   end
 
   def print_game_instructions
@@ -38,9 +33,10 @@ class Game
   end
 
   def play
+    @last_human_player_move ||= nil
     box_number = get_next_move
     @board.make_move(box_number, current_player(next_player))
-    @board.print_board
+    @ui.print_board(@board.grid)
     unless announce_victory?
       play
     end
@@ -56,6 +52,13 @@ class Game
   end
 
   private
+
+  def who_goes_first
+    num = rand(1..2)
+    first_player = num == 1 ? 'computer' : 'human'
+    return first_player
+  end
+
   def announce_victory?
     result_of_victory_check = @victory_checker.victory_or_continue_play(@board)
     unless result_of_victory_check == 'continue play'
@@ -71,7 +74,6 @@ class Game
       return false
     end
   end
-
 
   def get_next_move
     box_number = self.next_player == 'human' ? get_player_move : get_computer_move
@@ -89,12 +91,12 @@ class Game
       puts "Sorry, that box is already filled."
       new_move = get_player_move
     else
-      self.last_human_player_move = user_input
+      @last_human_player_move = user_input
     end
   end
 
   def get_computer_move
     puts "Computer move..."
-    move = @computer_player.get_next_computer_move(@board, last_human_player_move)
+    move = @computer_player.get_next_computer_move(@board, @last_human_player_move)
   end
 end

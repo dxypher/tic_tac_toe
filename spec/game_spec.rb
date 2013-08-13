@@ -9,6 +9,11 @@ describe Game do
       Game.new
     end
 
+    it "should initialize a user_interface" do
+      UserInterface.should_receive(:new).once
+      Game.new
+    end
+
     it "should initialize a Computer Player" do
       ComputerPlayer.should_receive(:new).once
       Game.new

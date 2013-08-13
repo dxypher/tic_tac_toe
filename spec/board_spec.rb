@@ -8,7 +8,7 @@ describe 'Board' do
       board = Board.new
       current_player = game.current_player(game.next_player)
       board.make_move(5, current_player)
-      board.grid[5].should_not == " "
+      expect(board.grid[5]).to eq current_player.mark
     end 
   end
 end
